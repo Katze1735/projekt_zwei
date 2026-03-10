@@ -16,44 +16,46 @@ st.title("Clothing Catalog")
 # -------------------------
 # Upload Section
 # -------------------------
-
 st.header("Upload Clothing Item")
 
-uploaded_file = st.file_uploader("Upload image", type=["png", "jpg", "jpeg"])
+uploaded_file = st.file_uploader(
+    "Upload image",
+    type=["png", "jpg", "jpeg"],
+    key="file_uploader"
+)
 
 # IMAGE PREVIEW
 if uploaded_file is not None:
     st.subheader("Preview")
     st.image(uploaded_file, width=300)
 
-name = st.text_input("Item name")
+name = st.text_input("Item name", key="name_input")
 
 clothing_type = st.selectbox(
     "Clothing type",
-    ["shirt", "pants", "jacket", "hoodie", "shoes", "other"]
+    ["shirt", "pants", "jacket", "hoodie", "shoes", "other"],
+    key="type_select"
 )
 
 color = st.selectbox(
     "Color",
-    ["black", "white", "blue", "red", "green", "yellow", "brown"]
+    ["black", "white", "blue", "red", "green", "yellow", "brown"],
+    key="color_select"
 )
 
-if st.button("Upload"):
+if st.button("Upload", key="upload_button"):
     if uploaded_file:
 
         file_id = str(uuid.uuid4())
         path = f"{file_id}_{uploaded_file.name}"
 
-        # Upload to Supabase storage
         supabase.storage.from_("clothing-images").upload(
             path,
             uploaded_file.getvalue()
         )
 
-        # Get public URL
         image_url = supabase.storage.from_("clothing-images").get_public_url(path)
 
-        # Insert metadata into database
         supabase.table("clothing_items").insert({
             "name": name,
             "clothing_type": clothing_type,
@@ -63,6 +65,8 @@ if st.button("Upload"):
 
         st.success("Item uploaded!")
 
+        # Clears the upload form
+        st.rerun()
 # -------------------------
 # Browse Section
 # -------------------------

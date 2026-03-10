@@ -68,7 +68,19 @@ if st.button("Upload"):
 # -------------------------
 
 st.header("Browse Clothing")
-
+st.markdown(
+    f"""
+    <style>
+    .stApp {{
+        background-image: url("https://external-content.duckduckgo.com/iu/?u=http%3A%2F%2F1.bp.blogspot.com%2F-ePC0IzZyyVs%2FTjIb-fgX1MI%2FAAAAAAAALBc%2F-eMi_QGmisI%2Fs1600%2FMRI%252528Magnetic%252BResonance%252BImaging%252529%252BScan%252BMachine%252B%2525287%252529.JPG&f=1&nofb=1&ipt=c31fafe21bb2e54953068314769073934d9f1b129b2e48562d4c649a2cd5b78c");
+        background-size: cover;
+        background-position: center;
+        background-attachment: fixed;
+    }}
+    </style>
+    """,
+    unsafe_allow_html=True
+)
 type_filter = st.multiselect(
     "Filter by type",
     ["shirt", "pants", "jacket", "hoodie", "shoes", "other"]

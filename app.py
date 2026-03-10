@@ -21,6 +21,11 @@ st.header("Upload Clothing Item")
 
 uploaded_file = st.file_uploader("Upload image", type=["png", "jpg", "jpeg"])
 
+# IMAGE PREVIEW
+if uploaded_file is not None:
+    st.subheader("Preview")
+    st.image(uploaded_file, width=300)
+
 name = st.text_input("Item name")
 
 clothing_type = st.selectbox(
@@ -37,7 +42,7 @@ if st.button("Upload"):
     if uploaded_file:
 
         file_id = str(uuid.uuid4())
-        path = f"{file_id}.jpg"
+        path = f"{file_id}_{uploaded_file.name}"
 
         # Upload to Supabase storage
         supabase.storage.from_("clothing-images").upload(
